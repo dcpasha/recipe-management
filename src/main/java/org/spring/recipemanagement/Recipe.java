@@ -27,19 +27,19 @@ public class Recipe {
     public Recipe() {
     }
 
-    public Recipe(String name, int cookTime, Boolean vegan, String cuisine) {
-        this.title = name;
+    public Recipe(String title, int cookTime, Boolean vegan, String cuisine) {
+        this.title = title;
         this.cuisine = cuisine;
         this.cookTime = cookTime;
         this.vegan = vegan;
     }
 
-    public String getName() {
+    public String getTitle() {
         return title;
     }
 
-    public void setName(String name) {
-        this.title = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getCuisine() {
