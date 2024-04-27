@@ -1,10 +1,16 @@
 package org.spring.recipemanagement;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Document("recipeitems") //  to specify the collection name that will be used by the model.
 public class Recipe {
+    // This is our model
 
     private static final AtomicInteger count = new AtomicInteger(0);
+
+    @Id // to specify the primary key for DB
     private final int id;
     private String name;
     private int cookTime;
@@ -23,6 +29,13 @@ public class Recipe {
 
     public Recipe() {
         this.id = count.incrementAndGet();
+    }
+
+    public Recipe(String name, int cookTime, Boolean vegan) {
+        this.id = count.incrementAndGet();
+        this.name = name;
+        this.cookTime = cookTime;
+        this.vegan = vegan;
     }
 
     private String cuisine;

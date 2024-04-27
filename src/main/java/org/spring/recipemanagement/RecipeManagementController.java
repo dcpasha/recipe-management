@@ -1,6 +1,7 @@
 package org.spring.recipemanagement;
 
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,8 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 
+
 @RestController
 public class RecipeManagementController {
+
+    @Autowired
+    RecipeItemRepository recipeItemRepo;
 
     List<Recipe> recipeList = new ArrayList<>();
     Map<Integer, Recipe> recipeMap = new HashMap<>();
@@ -25,6 +30,9 @@ public class RecipeManagementController {
     @PostMapping("/add") // to add a new recipe to list
     public String addRecipe(@RequestBody Recipe recipe){
 //        recipeList.add(recipe);
+        recipeItemRepo.save(new Recipe("Pasta", 25, true));
+        recipeItemRepo.save(new Recipe("Burger", 44, false));
+
         recipeMap.put(recipe.getId(), recipe);
         return String.format(recipe.getName() + " was added");
     }
@@ -39,7 +47,9 @@ public class RecipeManagementController {
     public ResponseEntity<String> returnRecipeById(@RequestParam(required = false) int id) { // @RequestParam to accept query parameters
         Recipe recipe;
         if (!recipeMap.containsKey(id)) {
-            // todo: throw an error that it does not exist
+            // todo: manage this exception
+            throw new RecipeNotFoundException("Unable to return recipe because id # " + id + " does not exist");
+
         }
             recipe = recipeMap.get(id);
             return ResponseEntity.ok(gson.toJson("The recipe name is " + recipe.getName()));
@@ -48,7 +58,8 @@ public class RecipeManagementController {
     @DeleteMapping("/remove")  // delete by id
     public String deleteRecipeById(@RequestParam(required = false) int id){
         if (!recipeMap.containsKey(id)) {
-            // todo: throw an error that it does not exist
+            // todo: manage this exception
+            throw new RecipeNotFoundException("Unable to delete recipe because id # " + id + " does not exist");
         }
         String recipeName = recipeMap.get(id).getName();
         recipeMap.remove(id);
@@ -61,7 +72,6 @@ public class RecipeManagementController {
         recipeMap.clear();
     }
 
-    // todo: edit a recipe by id
     // todo: exception handling
     // todo: databased persistence
 
