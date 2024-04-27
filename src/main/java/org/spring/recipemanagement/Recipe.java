@@ -12,7 +12,7 @@ public class Recipe {
 
 //    @Id // to specify the primary key for DB
 //    private int id;
-    private String name;
+    private String title;
     private int cookTime;
     private Boolean vegan;
 //    private String ingredients;
@@ -28,18 +28,18 @@ public class Recipe {
     }
 
     public Recipe(String name, int cookTime, Boolean vegan, String cuisine) {
-        this.name = name;
+        this.title = name;
         this.cuisine = cuisine;
         this.cookTime = cookTime;
         this.vegan = vegan;
     }
 
     public String getName() {
-        return name;
+        return title;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.title = name;
     }
 
     public String getCuisine() {
@@ -78,7 +78,7 @@ public class Recipe {
     @Override
     public String toString() {
         return "Recipe{" +
-                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
                 ", cookTime=" + cookTime +
                 ", vegan=" + vegan +
 //                ", ingredients='" + ingredients + '\'' +
