@@ -29,30 +29,24 @@ public class RecipeManagementController {
 
     @PostMapping("/add") // to add a new recipe to list
     public String addRecipe(@RequestBody Recipe recipe){
-//        recipeList.add(recipe);
-        recipeItemRepo.save(new Recipe("Pasta", 25, true));
-        recipeItemRepo.save(new Recipe("Burger", 44, false));
-
-        recipeMap.put(recipe.getId(), recipe);
+        recipeItemRepo.save(recipe); // save recipe to db
         return String.format(recipe.getName() + " was added");
     }
 
     @GetMapping("/recipes") // return all recipes
     public String returnAllRecipes(){
-//        return gson.toJson(recipeList);
-        return gson.toJson(recipeMap);
+        List<Recipe> recipes = recipeItemRepo.findAll();
+        return gson.toJson(recipes);
     }
 
-    @GetMapping("/recipe")  // return a recipe by an id
-    public ResponseEntity<String> returnRecipeById(@RequestParam(required = false) int id) { // @RequestParam to accept query parameters
-        Recipe recipe;
-        if (!recipeMap.containsKey(id)) {
-            // todo: manage this exception
-            throw new RecipeNotFoundException("Unable to return recipe because id # " + id + " does not exist");
-
-        }
-            recipe = recipeMap.get(id);
-            return ResponseEntity.ok(gson.toJson("The recipe name is " + recipe.getName()));
+    @GetMapping("/recipes/cuisine")  // return all recipes from a certain cuisine
+    public ResponseEntity<String> returnRecipeByCuisine(@RequestParam(required = false) String type) { // @RequestParam to accept query parameters//
+//         if (!recipeMap.containsKey(id)) {
+//            // todo: manage this exception
+//            throw new RecipeNotFoundException("Unable to return recipe because id # " + cuisine + " does not exist");
+//         }
+        List<Recipe> recipes =  recipeItemRepo.findRecipesByCuisine(type);  // list with all recipes of a certain type
+        return ResponseEntity.ok(gson.toJson(recipes));
     }
 
     @DeleteMapping("/remove")  // delete by id
@@ -66,11 +60,7 @@ public class RecipeManagementController {
         return "Removed " + recipeName + " from recipes";
     }
 
-    @DeleteMapping("/removeAll")  // remove everything
-    public void deleteAllRecipes(){
-//        recipeList = new ArrayList<>();
-        recipeMap.clear();
-    }
+
 
     // todo: exception handling
     // todo: databased persistence

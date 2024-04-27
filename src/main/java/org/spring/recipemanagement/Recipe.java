@@ -10,36 +10,29 @@ public class Recipe {
 
     private static final AtomicInteger count = new AtomicInteger(0);
 
-    @Id // to specify the primary key for DB
-    private final int id;
+//    @Id // to specify the primary key for DB
+//    private int id;
     private String name;
     private int cookTime;
     private Boolean vegan;
-    private String ingredients;
-    public int getId() {
-        return id;
-    }
+//    private String ingredients;
 
 //    private int score;
 //    private String notes;
 //    private String instructions;
 //    private int prepTime;
 //    private String category;
-
+    private String cuisine;
 
     public Recipe() {
-        this.id = count.incrementAndGet();
     }
 
-    public Recipe(String name, int cookTime, Boolean vegan) {
-        this.id = count.incrementAndGet();
+    public Recipe(String name, int cookTime, Boolean vegan, String cuisine) {
         this.name = name;
+        this.cuisine = cuisine;
         this.cookTime = cookTime;
         this.vegan = vegan;
     }
-
-    private String cuisine;
-
 
     public String getName() {
         return name;
@@ -74,13 +67,22 @@ public class Recipe {
         this.vegan = vegan;
     }
 
-    public String getIngredients() {
-        return ingredients;
+//    public String getIngredients() {
+//        return ingredients;
+//    }
+//
+//    public void setIngredients(String ingredients) {
+//        this.ingredients = ingredients;
+//    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                ", name='" + name + '\'' +
+                ", cookTime=" + cookTime +
+                ", vegan=" + vegan +
+//                ", ingredients='" + ingredients + '\'' +
+                ", cuisine='" + cuisine + '\'' +
+                '}';
     }
-
-    public void setIngredients(String ingredients) {
-        this.ingredients = ingredients;
-    }
-
-
 }
