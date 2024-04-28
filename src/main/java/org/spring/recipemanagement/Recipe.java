@@ -1,13 +1,12 @@
 package org.spring.recipemanagement;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("recipeitems") //  to specify the collection name that will be used by the model.
-public class Recipe {
-    // This is our model
-
-//    @Id // to specify the primary key for DB
-//    private int id;
+public class Recipe {  // This is our model
+    @Id  // to specify the primary key for DB
+    private String id;
     private String title;
     private int cookTime;
     private Boolean vegan;
@@ -62,14 +61,6 @@ public class Recipe {
     public void setVegan(Boolean vegan) {
         this.vegan = vegan;
     }
-
-//    public String getIngredients() {
-//        return ingredients;
-//    }
-//
-//    public void setIngredients(String ingredients) {
-//        this.ingredients = ingredients;
-//    }
 
     @Override
     public String toString() {

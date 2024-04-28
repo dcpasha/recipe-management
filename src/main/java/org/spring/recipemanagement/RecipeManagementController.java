@@ -56,13 +56,13 @@ public class RecipeManagementController {
        String message;
        if (recipe.isPresent()) {
            String title = recipe.get().getTitle(); // extract the title
-           message = "Removed " + title + " from recipes";
+           message = "Removed \"" + title + "\" from recipes";
            recipeItemRepo.deleteById(id);
        }
        else {
            message = id + " ID does not exist";
        }
-        return message; // contains the title of the recipe
+        return message; // with the title of the recipe if exists
     }
 
     @DeleteMapping("/remove/all")  // delete all recipes
