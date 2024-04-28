@@ -13,9 +13,11 @@ public class RecipeManagementController {
 
     @Autowired
     RecipeItemRepository recipeItemRepo;
+    @Autowired
+    CustomRecipeItemRepositoryImp customRecipeItemRepo;
 
-    List<Recipe> recipeList = new ArrayList<>();
-    Map<Integer, Recipe> recipeMap = new HashMap<>();
+//    List<Recipe> recipeList = new ArrayList<>();
+//    Map<Integer, Recipe> recipeMap = new HashMap<>();
     Gson gson = new Gson();  // to serialize and deserialize
 
     @GetMapping("/home")
@@ -49,6 +51,21 @@ public class RecipeManagementController {
         List<Recipe> recipe = recipeItemRepo.findRecipesByTitle(name);  // list with all recipes of a certain type
         return ResponseEntity.ok(gson.toJson(recipe));
     }
+
+
+    @GetMapping("/recipe") // return recipe by id
+    public ResponseEntity<String> getRecipeById(@RequestParam(required = false) String id) {
+        return ResponseEntity.ok(gson.toJson(
+                recipeItemRepo.findById(id).orElse(null)
+        ));
+    }
+
+    @PutMapping("/recipe") // update the cuisine field of the specified recipe by id
+    public ResponseEntity<String> updateRecipeById(@RequestParam String id, @RequestParam String cuisine) {
+        customRecipeItemRepo.updateRecipeCuisine(id, cuisine);
+        return ResponseEntity.ok(gson.toJson(id + " and " + cuisine));
+    }
+
 
     @DeleteMapping("/remove")  // delete a recipe by id if exists and displays the recipe title
     public String deleteRecipeById(@RequestParam(required = false) String id){

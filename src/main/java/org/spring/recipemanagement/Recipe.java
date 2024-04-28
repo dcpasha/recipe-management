@@ -68,7 +68,6 @@ public class Recipe {  // This is our model
                 ", title='" + title + '\'' +
                 ", cookTime=" + cookTime +
                 ", vegan=" + vegan +
-//                ", ingredients='" + ingredients + '\'' +
                 ", cuisine='" + cuisine + '\'' +
                 '}';
     }
