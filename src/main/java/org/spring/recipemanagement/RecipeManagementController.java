@@ -5,11 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 
 
 @RestController
@@ -40,38 +36,37 @@ public class RecipeManagementController {
     }
 
     @GetMapping("/recipes/cuisine")  // return all recipes from a certain cuisine
-    public ResponseEntity<String> returnRecipeByCuisine(@RequestParam(required = false) String type) { // @RequestParam to accept query parameters//
-//         if (!recipeMap.containsKey(id)) {
-//            throw new RecipeNotFoundException("Unable to return recipe because id # " + cuisine + " does not exist");
-//         }
+    // @RequestParam to accept query parameters//
+    public ResponseEntity<String> returnRecipeByCuisine(@RequestParam(required = false) String type) {
         List<Recipe> recipes = recipeItemRepo.findRecipesByCuisine(type);  // list with all recipes of a certain type
         return ResponseEntity.ok(gson.toJson(recipes));
     }
 
     @GetMapping("/recipes/title")  // return a recipes by its name
     // Assume that each recipe title is unique
-    public ResponseEntity<String> returnRecipeByTitle(@RequestParam(required = false) String name) { // @RequestParam to accept query parameters//
-//         if (!recipeMap.containsKey(id)) {
-//            throw new RecipeNotFoundException("Unable to return recipe because id # " + cuisine + " does not exist");
-//         }
+    // @RequestParam to accept query parameters
+    public ResponseEntity<String> returnRecipeByTitle(@RequestParam(required = false) String name) {
         List<Recipe> recipe = recipeItemRepo.findRecipesByTitle(name);  // list with all recipes of a certain type
         return ResponseEntity.ok(gson.toJson(recipe));
     }
 
-    @DeleteMapping("/remove")  // delete a recipe by id
+    @DeleteMapping("/remove")  // delete a recipe by id if exists and displays the recipe title
     public String deleteRecipeById(@RequestParam(required = false) String id){
-//        if (!recipeMap.containsKey(id)) {
-//            throw new RecipeNotFoundException("Unable to delete recipe because id # " + id + " does not exist");
-//        }
-        recipeItemRepo.deleteById(id);
-        return "Removed " + id + " from recipes";
+       Optional<Recipe> recipe = recipeItemRepo.findById(id);
+       String message;
+       if (recipe.isPresent()) {
+           String title = recipe.get().getTitle(); // extract the title
+           message = "Removed " + title + " from recipes";
+           recipeItemRepo.deleteById(id);
+       }
+       else {
+           message = id + " ID does not exist";
+       }
+        return message; // contains the title of the recipe
     }
 
     @DeleteMapping("/remove/all")  // delete all recipes
     public String deleteRecipeByTitle(){
-//        if (!recipeMap.containsKey(id)) {
-//            throw new RecipeNotFoundException("Unable to delete recipe because id # " + id + " does not exist");
-//        }
         recipeItemRepo.deleteAll();
         return "All Recipes were deleted";
     }

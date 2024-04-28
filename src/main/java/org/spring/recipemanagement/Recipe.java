@@ -1,21 +1,17 @@
 package org.spring.recipemanagement;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Document("recipeitems") //  to specify the collection name that will be used by the model.
 public class Recipe {
     // This is our model
-
-    private static final AtomicInteger count = new AtomicInteger(0);
 
 //    @Id // to specify the primary key for DB
 //    private int id;
     private String title;
     private int cookTime;
     private Boolean vegan;
-//    private String ingredients;
+//    private String ingredients; // show be a hashmap
 
 //    private int score;
 //    private String notes;

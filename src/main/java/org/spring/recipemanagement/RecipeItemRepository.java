@@ -22,7 +22,8 @@ public interface RecipeItemRepository extends MongoRepository <Recipe, String> {
             " 'title': 1, 'cuisine': 1, 'cookTime': 1, 'vegan': 1}")
     List<Recipe> findRecipesByTitle(String title);
 
-//    @Query(value="{_id:'?0'}", fields="{'title': 1}")
-//    Recipe findRecipeById(String _id);
+//    @Query(value = "{_id : '?0'}", fields = "{'title': 1}")
+//    Recipe findById(String id);
+
     public long count(); // count the number of documents in a collection
 }
